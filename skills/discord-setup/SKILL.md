@@ -145,15 +145,43 @@ chmod 600 ~/.claude/channels/discord/.env
 - `groups` → サーバーチャンネルの設定。キーはチャンネルID
 - `requireMention: false` → @メンションなしでも反応する（trueなら@メンション必須）
 
-### ステップ6: 起動確認
+### ステップ6: 起動モードの選択
 
-ユーザーに以下のコマンドを案内:
+Claude Code の起動時に、権限モードを選ぶ必要がある。
+**ユーザーに以下の3つのモードを提示し、選んでもらう。**
 
+---
+
+**モード1: 通常モード（推奨・初心者向け）**
 ```bash
-claude --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions
+claude --channels plugin:discord@claude-plugins-official
 ```
+- ファイル編集やコマンド実行のたびに確認が入る
+- 安全性が最も高い。初めて使う方はこちら
+- 少し手間はかかるが、意図しない操作を防げる
 
-起動後の確認事項:
+**モード2: 自動承認モード（中級者向け）**
+```bash
+claude --channels plugin:discord@claude-plugins-official --allowedTools 'Bash(*)' 'Read' 'Write' 'Edit'
+```
+- よく使うツール（ファイル読み書き・コマンド実行）を自動承認
+- 確認の手間が減りつつ、一定の安全性を維持
+
+**モード3: 全権限スキップモード（上級者向け）**
+```bash
+claude --channels plugin:discord@claude-plugins-official  # 権限モードは上記ステップ6を参照
+```
+- 全ての権限確認をスキップ。完全に自動で動作する
+- **注意: ファイルの削除やシステム操作も確認なしで実行される**
+- セキュリティを理解した上で使用すること
+
+---
+
+**どのモードでも後から変更可能。** まずはモード1で試して、慣れてきたらモード2や3に切り替えるのがおすすめ。
+
+### ステップ7: 起動確認
+
+選んだモードのコマンドで起動した後、以下を確認:
 - 「Listening for channel messages from: plugin:discord@claude-plugins-official」が表示されること
 - `/mcp` で `plugin:discord:discord · connected` になっていること
 
@@ -180,7 +208,7 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 
 **ターミナル2（Discord用）:**
 ```bash
-claude --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions
+claude --channels plugin:discord@claude-plugins-official  # 権限モードは上記ステップ6を参照
 ```
 → 起動後に `/mcp` で Telegram を停止
 
@@ -224,7 +252,7 @@ claude --channels plugin:discord@claude-plugins-official --dangerously-skip-perm
 |------|-------------|
 | トークン保存先 | `~/.claude/channels/discord/.env` |
 | アクセス設定 | `~/.claude/channels/discord/access.json` |
-| 起動コマンド | `claude --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions` |
+| 起動コマンド | `claude --channels plugin:discord@claude-plugins-official  # 権限モードは上記ステップ6を参照` |
 | アクセス管理 | `/discord:access` （ターミナルで実行） |
 | 設定確認 | `/discord:configure` （ターミナルで実行） |
 | MCP状態確認 | `/mcp` |
