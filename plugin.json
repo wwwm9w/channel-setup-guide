@@ -1,0 +1,10 @@
+{
+  "name": "channel-setup-guide",
+  "version": "1.0.0",
+  "description": "Discord / Telegram チャネルのセットアップをブラウザ操作で全自動化するガイドスキル",
+  "author": "wwwm9w",
+  "skills": [
+    "skills/discord-setup",
+    "skills/telegram-setup"
+  ]
+}
